@@ -11,7 +11,7 @@
 
 | Лаба | Код | Отчёт |
 |---|---|---|
-| №2: Камера и освещение | [тег `lab2`](https://github.com/SergioMartinov31/cg-labs/tree/lab2) | `reports/lab2/` |
+| №2: Камера и освещение | [тег `lab2`](https://github.com/SergioMartinov31/cg-labs/tree/lab2) | [`reports/lab2/`](reports/lab2) |
 | №1: Основы 3D-графики | [тег `lab1`](https://github.com/SergioMartinov31/cg-labs/tree/lab1) | [`reports/lab1/`](reports/lab1) |
 
 Посмотреть код первой лабы локально: `git checkout lab1`, вернуться к последней: `git checkout master`.
