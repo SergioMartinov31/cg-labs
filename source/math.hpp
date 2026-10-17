@@ -18,6 +18,22 @@ struct Vec3 {
 	float x, y, z;
 };
 
+// Операции с векторами: нужны для движения камеры и направлений света
+inline Vec3 operator+(Vec3 a, Vec3 b) { return { a.x + b.x, a.y + b.y, a.z + b.z }; }
+inline Vec3 operator-(Vec3 a, Vec3 b) { return { a.x - b.x, a.y - b.y, a.z - b.z }; }
+inline Vec3 operator-(Vec3 a) { return { -a.x, -a.y, -a.z }; }
+inline Vec3 operator*(Vec3 a, float k) { return { a.x * k, a.y * k, a.z * k }; }
+
+inline float length(Vec3 a) {
+	return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+// Вектор той же направленности, но длины 1
+inline Vec3 normalize(Vec3 a) {
+	const float l = length(a);
+	return l > 0.0f ? a * (1.0f / l) : Vec3{ 0.0f, 0.0f, 0.0f };
+}
+
 struct Mat4 {
 	float m[16]; // m[column * 4 + row]
 
@@ -91,6 +107,8 @@ inline Mat4 rotateZ(float a) {
 // Перспективная проекция под Vulkan:
 // камера смотрит вдоль -Z, глубина отображается в [0, 1],
 // ось Y в clip space Vulkan направлена вниз, поэтому берём -f.
+// fov_y - вертикальный угол обзора в радианах, aspect - отношение ширины к высоте.
+// near и far - расстояния до ближней и дальней плоскостей отсечения (оба положительные).
 inline Mat4 perspective(float fov_y, float aspect, float near, float far) {
 	const float f = 1.0f / std::tan(fov_y * 0.5f);
 
@@ -106,6 +124,7 @@ inline Mat4 perspective(float fov_y, float aspect, float near, float far) {
 // Ортографическая проекция: композиция перемещения и растяжения,
 // которая переводит параллелепипед [l, r] x [b, t] x [-near, -far]
 // в канонический объём Vulkan [-1, 1] x [-1, 1] x [0, 1].
+//
 inline Mat4 orthographic(float left, float right, float bottom, float top,
                          float near, float far) {
 	Mat4 r = Mat4::identity();
